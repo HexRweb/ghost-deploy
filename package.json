@@ -1,0 +1,28 @@
+{
+ "name": "ghost-deploy",
+ "version": "0.0.1",
+ "description": "Deploy your Ghost theme to a running Ghost instance",
+ "main": "deploy.js",
+ "repository": "https://github.com/hexrweb/ghost-deploy",
+ "author": "HexR <hello@hexr.org>",
+ "license": "MIT",
+ "engines": {
+  "node": ""
+ },
+ "dependencies": {
+  "axios": "^0.18.0",
+  "form-data": "^2.3.2",
+  "gscan": "^2.1.1"
+ },
+ "devDependencies": {
+  "xo": "^0.22.0"
+ },
+ "xo": {
+  "rules": {
+   "func-names": [
+    "error",
+    "as-needed"
+   ]
+  }
+ }
+}
