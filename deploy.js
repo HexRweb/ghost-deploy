@@ -3,6 +3,7 @@ const ensureLikeGhostInstance = require('./actions/ensure-like-ghost-instance');
 const validateTheme = require('./actions/validate-theme');
 const getToken = require('./actions/get-token');
 const uploadTheme = require('./actions/upload-theme');
+const activateTheme = require('./actions/activate-theme');
 const destroyTokens = require('./actions/destroy-tokens');
 
 module.exports = function deployGhostTheme(options) {
@@ -36,6 +37,14 @@ module.exports = function deployGhostTheme(options) {
 
 		console.log('Uploading theme');
 		return uploadTheme(opts.url, accessToken, opts.themePath);
+	}).then(function actionActivate({data}) {
+		// Don't active the theme if we don't want to or it's already active
+		if (!opts.activateTheme || data.themes[0].active) {
+			return Promise.resolve();
+		}
+
+		console.log('Activating theme');
+		return activateTheme(opts.url, tokens.access, data.themes[0].name)
 	}).then(function actionDestroy() {
 		if (opts.token || !(tokens.access || tokens.refresh)) {
 			return Promise.resolve();

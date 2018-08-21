@@ -134,7 +134,8 @@ describe('Unit: actions > transform-options', function () {
 			id: 'cid',
 			secret: 'secret',
 			themePath: '/path/to/ghost',
-			skipThemeValidation: true
+			skipThemeValidation: true,
+			activateTheme: true
 		};
 
 		return transformOptions(opts).then(options => {
