@@ -9,15 +9,17 @@ const validateTheme = require('../../../actions/validate-theme');
 
 describe('Unit: actions > validate-theme', function () {
 	let checkZip;
+	let format;
 	let results;
 
 	beforeEach(function () {
 		results = {
-			error: {all: []},
-			warning: {all: []}
+			error: [],
+			warning: []
 		};
 
 		checkZip = sinon.stub(gscan, 'checkZip').callsFake(() => Promise.resolve({results}));
+		format = sinon.stub(gscan, 'format').callsFake(a => a);
 	});
 
 	afterEach(function () {
@@ -27,7 +29,9 @@ describe('Unit: actions > validate-theme', function () {
 	it('runs gscan', function () {
 		return validateTheme('/test').then(() => {
 			expect(checkZip.calledOnce).to.be.true;
-			expect(checkZip.args[0][0].path).to.equal('/test');
+			expect(format.calledOnce).to.be.true;
+			expect(format.calledWithExactly({results})).to.be.true;
+			expect(checkZip.args[0][0]).to.equal('/test');
 		});
 	});
 
@@ -39,7 +43,7 @@ describe('Unit: actions > validate-theme', function () {
 	});
 
 	it('Fails with errors', function () {
-		results.error.all.push('test');
+		results.error.push('test');
 
 		return validateTheme('/test').then(expectError).catch(error => {
 			expect(error).to.be.instanceOf(DeployError);
@@ -48,7 +52,7 @@ describe('Unit: actions > validate-theme', function () {
 	});
 
 	it('Fails with warnings', function () {
-		results.warning.all.push('test');
+		results.warning.push('test');
 
 		return validateTheme('/test').then(expectError).catch(error => {
 			expect(error).to.be.instanceOf(DeployError);
