@@ -9,9 +9,10 @@ const config = {
 	url: 'http://localhost:2368/ghost',
 	username: 'testing@hexr.org',
 	password: 'test-env!!!',
-	id: 'hexr-test',
+	id: 'ghost-publish',
 	secret: 'h3xRRx3h',
-	themePath: resolve(__dirname, '..', 'fixtures', 'valid-theme.zip')
+	themePath: resolve(__dirname, '..', 'fixtures', 'valid-theme.zip'),
+	activateTheme: true
 };
 
 describe('Acceptance: Uploads a theme', function () {
