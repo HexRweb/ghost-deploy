@@ -61,6 +61,6 @@ typings/
 .next
 
 .vscode/
-.code-workspace
+*.code-workspace
 
 instance
