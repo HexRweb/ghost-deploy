@@ -54,3 +54,5 @@ module.exports = function deployGhostTheme(options) {
 		return destroyTokens(opts, tokens);
 	});
 };
+
+module.exports.DeployError = require('./utils/deploy-error');
