@@ -1,5 +1,4 @@
 'use strict';
-const {createReadStream} = require('fs');
 const axios = require('../utils/axios');
 const handleAxiosError = require('../utils/handle-axios-error');
 

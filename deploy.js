@@ -44,7 +44,7 @@ module.exports = function deployGhostTheme(options) {
 		}
 
 		console.log('Activating theme');
-		return activateTheme(opts.url, tokens.access, data.themes[0].name)
+		return activateTheme(opts.url, tokens.access, data.themes[0].name);
 	}).then(function actionDestroy() {
 		if (opts.token || !(tokens.access || tokens.refresh)) {
 			return Promise.resolve();
