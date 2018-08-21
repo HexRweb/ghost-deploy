@@ -17,6 +17,7 @@ cache:
 
 install:
   - yarn
+  - chmod +x ./install-ghost.sh
   - if [ "$TEST_SUITE" != "lint" ]; then ./install-ghost.sh; fi
 
 script:
