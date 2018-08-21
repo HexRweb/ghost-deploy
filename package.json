@@ -1,28 +1,55 @@
 {
- "name": "ghost-deploy",
- "version": "0.0.1",
- "description": "Deploy your Ghost theme to a running Ghost instance",
- "main": "deploy.js",
- "repository": "https://github.com/hexrweb/ghost-deploy",
- "author": "HexR <hello@hexr.org>",
- "license": "MIT",
- "engines": {
-  "node": ""
- },
- "dependencies": {
-  "axios": "^0.18.0",
-  "form-data": "^2.3.2",
-  "gscan": "^2.1.1"
- },
- "devDependencies": {
-  "xo": "^0.22.0"
- },
- "xo": {
-  "rules": {
-   "func-names": [
-    "error",
-    "as-needed"
-   ]
+  "name": "ghost-deploy",
+  "version": "0.0.1",
+  "description": "Deploy your Ghost theme to a running Ghost instance",
+  "main": "deploy.js",
+  "repository": "https://github.com/hexrweb/ghost-deploy",
+  "author": "HexR <hello@hexr.org>",
+  "license": "MIT",
+  "engines": {
+    "node": ""
+  },
+  "scripts": {
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "lint": "xo",
+    "test": "yarn run lint && yarn run test:unit && yarn run test:acceptance",
+    "test:unit": "nyc --reporter=html --reporter=text mocha --recursive test/unit",
+    "test:acceptance": "mocha test/acceptance/**/*-spec.js"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "form-data": "^2.3.2",
+    "gscan": "^2.1.1"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "coveralls": "^3.0.2",
+    "mocha": "^5.2.0",
+    "nyc": "^12.0.2",
+    "rewire": "^4.0.1",
+    "sinon": "^6.1.5",
+    "xo": "^0.22.0"
+  },
+  "xo": {
+    "rules": {
+      "func-names": [
+        "error",
+        "as-needed"
+      ]
+    },
+    "overrides": [
+      {
+        "files": "test/**/*.js",
+        "envs": [
+          "node",
+          "mocha"
+        ],
+        "rules": {
+          "func-names": "off",
+          "prefer-arrow-callback": "off",
+          "no-unused-expressions": "off"
+        }
+      }
+    ]
   }
- }
 }
