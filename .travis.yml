@@ -17,10 +17,7 @@ cache:
 
 install:
   - yarn
-  - yarn add ghost-cli
-  - node_modules/.bin/ghost install local -d instance --db=sqlite3
-  - node_modules/.bin/ghost stop
-  - database__connection__filename="$(pwd)/test/fixtures/ghost-local.db" node instance/current/index.js &
+  - if [ "$TEST_SUITE" != "lint" ]; then ./install-ghost.sh; fi
 
 script:
   - if [ "$TEST_SUITE" == "lint" ]; then yarn run lint; else yarn run test:all; fi
