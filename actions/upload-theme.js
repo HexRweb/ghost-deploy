@@ -21,7 +21,7 @@ module.exports = function uploadTheme(baseUrl, accessToken, themePath) {
 	const data = new FormData();
 	data.append('theme', createReadStream(themePath));
 
-	// using the axios proxy utility was causing too many issues 😭
+	// Using the axios proxy utility was causing too many issues 😭
 	const headers = Object.assign(data.getHeaders(), {
 		authorization: `Bearer ${accessToken}`,
 		'user-agent': AGENT
