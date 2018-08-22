@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/HexRweb/ghost-deploy.svg?branch=master)](https://travis-ci.org/HexRweb/ghost-deploy)
 [![Coverage Status](https://coveralls.io/repos/github/HexRweb/ghost-deploy/badge.svg?branch=master)](https://coveralls.io/github/HexRweb/ghost-deploy?branch=master)
-[![NPM Version](https://img.shields.io/npm/v/ghost-publish.svg)](https://npmjs.com/package/ghost-publish)
+[![NPM Version](https://img.shields.io/npm/v/ghost-deploy.svg)](https://npmjs.com/package/ghost-deploy)
 [![dependencies Status](https://david-dm.org/hexrweb/ghost-deploy/status.svg)](https://david-dm.org/hexrweb/ghost-deploy)
 
 Deploy your Ghost theme to a running Ghost instance
