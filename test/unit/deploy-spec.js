@@ -5,6 +5,7 @@ const sinon = require('sinon').createSandbox();
 const rewire = require('rewire');
 
 const deploy = rewire('../../deploy');
+const {mute} = require('../../utils/log');
 
 const themeData = {
 	themes: [{active: false, name: 'theme'}]
@@ -27,7 +28,7 @@ describe('Unit: deploy', function () {
 		upload = sinon.stub().resolves({data: themeData});
 		activate = sinon.stub().resolves();
 		destroy = sinon.stub().resolves();
-		sinon.stub(console, 'log');
+		mute();
 
 		deploy.__set__('transformOptions', transform);
 		deploy.__set__('ensureLikeGhostInstance', ghosty);

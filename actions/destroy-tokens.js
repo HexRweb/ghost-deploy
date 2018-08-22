@@ -1,6 +1,7 @@
 'use strict';
 
 const axios = require('../utils/axios');
+const {warn} = require('../utils/log');
 
 /*
  * @name destroyToken
@@ -27,7 +28,7 @@ function destroyToken(instance, accessToken, token, type = 'access_token') {
 			authorization: `Bearer ${accessToken}`
 		}
 	}).catch(err => {
-		console.warn(`Failed to revoke ${type}. This is a non-fatal error: ${err}`);
+		warn(`Failed to revoke ${type}. This is a non-fatal error: ${err}`);
 	});
 }
 /*
