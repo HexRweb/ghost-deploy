@@ -8,7 +8,12 @@
   "license": "MIT",
   "engines": {
     "node": "^6.9.0 || ^8.9.0 || ^ 10.4.0"
-  },
+	},
+	"files": [
+		"actions",
+		"utils",
+		"deploy.js"
+	],
   "scripts": {
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "xo",
