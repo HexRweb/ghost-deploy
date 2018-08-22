@@ -1,6 +1,6 @@
 {
   "name": "ghost-deploy",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Deploy your Ghost theme to a running Ghost instance",
   "main": "deploy.js",
   "repository": "https://github.com/hexrweb/ghost-deploy",
@@ -8,12 +8,12 @@
   "license": "MIT",
   "engines": {
     "node": "^6.9.0 || ^8.9.0 || ^ 10.4.0"
-	},
-	"files": [
-		"actions",
-		"utils",
-		"deploy.js"
-	],
+  },
+  "files": [
+    "actions",
+    "utils",
+    "deploy.js"
+  ],
   "scripts": {
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "xo",
