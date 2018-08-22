@@ -1,6 +1,9 @@
 #! /bin/bash
 
-yarn add --silent ghost-cli
-node_modules/.bin/ghost install local -d instance --db=sqlite3
-node_modules/.bin/ghost stop -d instance
-database__connection__filename="$(pwd)/test/fixtures/ghost-local.db" node instance/current/index.js &
+yarn add ghost-cli --silent --no-emoji --no-progress --non-interactive
+node_modules/.bin/ghost install local -d instance --db=sqlite3 --no-prompt --quiet
+node_modules/.bin/ghost stop -d instance --no-prompt --quiet
+# remove stdout as a transport
+sed -i 's/    "file",/    "file"/' instance/config.development.json
+sed -i 's/    "stdout"//' instance/config.development.json
+NODE_ENV="production" database__connection__filename="$(pwd)/test/fixtures/ghost-local.db" node instance/current/index.js &
