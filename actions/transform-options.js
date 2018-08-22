@@ -2,6 +2,12 @@
 const {parse, format} = require('url');
 const DeployError = require('../utils/deploy-error');
 
+/*
+ * @name transformOptions
+ * @description ensures required options exist and transforms URL to a Ghost API root
+ * @param {object} options - options to validate
+ * @returns {Promise} the transformed options
+*/
 module.exports = function transformOptions(options) {
 	const {username, password, id, secret, token, themePath} = options;
 	let {url} = options;
