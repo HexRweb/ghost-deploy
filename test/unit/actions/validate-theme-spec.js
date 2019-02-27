@@ -26,37 +26,46 @@ describe('Unit: actions > validate-theme', function () {
 		sinon.restore();
 	});
 
-	it('runs gscan', function () {
-		return validateTheme('/test').then(() => {
-			expect(checkZip.calledOnce).to.be.true;
-			expect(format.calledOnce).to.be.true;
-			expect(format.calledWithExactly({results})).to.be.true;
-			expect(checkZip.args[0][0]).to.equal('/test');
-		});
+	it('runs gscan', async function () {
+		await validateTheme('/test');
+		expect(checkZip.calledOnce).to.be.true;
+		expect(format.calledOnce).to.be.true;
+		expect(format.calledWithExactly({results})).to.be.true;
+		expect(checkZip.args[0][0]).to.equal('/test');
 	});
 
-	it('passes gscan error through', function () {
+	it('passes gscan error through', async function () {
 		checkZip.rejects(new Error('TESTING-theme-validation'));
-		return validateTheme('/test').then(expectError).catch(error => {
+
+		try {
+			await validateTheme('/test');
+			expectError();
+		} catch (error) {
 			expect(error.message).to.equal('TESTING-theme-validation');
-		});
+		}
 	});
 
-	it('Fails with errors', function () {
+	it('Fails with errors', async function () {
 		results.error.push('test');
 
-		return validateTheme('/test').then(expectError).catch(error => {
+		try {
+			await validateTheme('/test');
+			expectError();
+		} catch (error) {
 			expect(error).to.be.instanceOf(DeployError);
 			expect(error.message).to.equal('Theme validation failed');
-		});
+		}
 	});
 
-	it('Fails with warnings', function () {
+	it('Fails with warnings', async function () {
 		results.warning.push('test');
 
-		return validateTheme('/test').then(expectError).catch(error => {
+		try {
+			await validateTheme('/test');
+			expectError();
+		} catch (error) {
 			expect(error).to.be.instanceOf(DeployError);
 			expect(error.message).to.equal('Theme validation failed');
-		});
+		}
 	});
 });

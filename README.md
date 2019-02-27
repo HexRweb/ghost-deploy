@@ -36,6 +36,8 @@ return deploy({
 
 ```
 
+[example](https://github.com/hexrweb/ghost-deploy/tree/master/test/acceptance/successful-upload-spec.js)
+
 # Deploy options
 
 Required options: authentication, themePath, url
@@ -75,8 +77,6 @@ deploy({
   // Other options
 });
 ```
-
-[example](https://github.com/hexrweb/ghost-deploy/tree/master/test/acceptance/successful-upload-spec.js)
 
 ### Cleanup
 

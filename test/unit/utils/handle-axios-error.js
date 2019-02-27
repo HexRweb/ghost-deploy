@@ -17,38 +17,52 @@ describe('Unit: utils > handle-axios-error', function () {
 		server.close();
 	});
 
-	it('unknown (non-axios) errors', function () {
-		return Promise.reject(new Error('SOMETHING_HAPPENED')).catch(handleError).catch(error => {
+	it('unknown (non-axios) errors', async function () {
+		try {
+			await Promise.reject(new Error('SOMETHING_HAPPENED')).catch(handleError);
+		} catch (error) {
 			expect(error).to.be.instanceOf(DeployError);
 			expect(error.message).to.equal('An unknown error occurred: SOMETHING_HAPPENED');
-		});
+		}
 	});
 
-	it('non-ghost errors', function () {
-		return axios('http://127.0.0.1:3000/401-no-data').then(expectError).catch(handleError).catch(error => {
+	it('non-ghost errors', async function () {
+		try {
+			await axios('http://127.0.0.1:3000/401-no-data').catch(handleError);
+			expectError();
+		} catch (error) {
 			expect(error).to.be.instanceOf(DeployError);
 			expect(error.message).to.equal('Unable to complete request: Request failed with status code 401');
-		});
+		}
 	});
 
-	it('ghost errors', function () {
-		return axios('http://127.0.0.1:3000/401').then(expectError).catch(handleError).catch(error => {
+	it('ghost errors', async function () {
+		try {
+			await axios('http://127.0.0.1:3000/401').catch(handleError);
+			expectError();
+		} catch (error) {
 			expect(error).to.be.instanceOf(DeployError);
 			expect(error.message).to.equal('Unable to complete request - Access denied. No client credentials');
-		});
+		}
 	});
-	it('ghost errors', function () {
-		return axios('http://127.0.0.1:3000/403').then(expectError).catch(handleError).catch(error => {
+	it('ghost errors', async function () {
+		try {
+			await axios('http://127.0.0.1:3000/403').catch(handleError);
+			expectError();
+		} catch (error) {
 			expect(error).to.be.instanceOf(DeployError);
 			expect(error.message).to.equal('Unable to complete request - Please Sign In ');
-		});
+		}
 	});
 
-	it('custom message', function () {
+	it('custom message', async function () {
 		const err = handleError.bind({action: 'test'});
-		return axios('http://127.0.0.1:3000/401').then(expectError).catch(err).catch(error => {
+		try {
+			await axios('http://127.0.0.1:3000/401').catch(err);
+			expectError();
+		} catch (error) {
 			expect(error).to.be.instanceOf(DeployError);
 			expect(error.message).to.equal('Unable to test - Access denied. No client credentials');
-		});
+		}
 	});
 });

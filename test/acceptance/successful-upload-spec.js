@@ -16,9 +16,10 @@ const config = {
 };
 
 describe('Acceptance: Uploads a theme', function () {
-	it('works', function () {
-		return deploy(config).then(() => axios('http://localhost:2368/')).then(resp => {
-			expect(resp.data).to.have.string('VALID_GHOST_THEME_UPLOADED');
-		});
+	it('works', async function () {
+		await deploy(config);
+
+		const {data} = await axios('http://localhost:2368/');
+		expect(data).to.have.string('VALID_GHOST_THEME_UPLOADED');
 	});
 });

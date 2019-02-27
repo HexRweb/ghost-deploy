@@ -1,60 +1,31 @@
+const GhostAdminAPI = require('@tryghost/admin-api');
+
 const {log} = require('./utils/log');
-
-const transformOptions = require('./actions/transform-options');
-const ensureLikeGhostInstance = require('./actions/ensure-like-ghost-instance');
+const normalizeOptions = require('./actions/normalize-options');
 const validateTheme = require('./actions/validate-theme');
-const getToken = require('./actions/get-token');
-const uploadTheme = require('./actions/upload-theme');
 const activateTheme = require('./actions/activate-theme');
-const destroyTokens = require('./actions/destroy-tokens');
 
-module.exports = function deployGhostTheme(options) {
-	const tokens = {};
-	let opts;
-
-	/* Named ensureLikeGhostInstance because we're not doing a full on
-	 * check, just making sure the API responds how we expect it to
-	*/
-	return transformOptions(options).then(options => {
-		opts = options;
-		log('Checking URL validity');
-		return ensureLikeGhostInstance(opts.url);
-	}).then(function actionValidate() {
-		if (opts.skipThemeValidation) {
-			return Promise.resolve();
-		}
-
-		log('Checking theme validity');
-		return validateTheme(opts.themePath);
-	}).then(function actionGet() {
-		if (opts.token) {
-			return Promise.resolve({accessToken: opts.token});
-		}
-
-		log('Retrieving access token');
-		return getToken(opts);
-	}).then(function actionUpload({accessToken, refreshToken}) {
-		tokens.access = accessToken;
-		tokens.refresh = refreshToken;
-
-		log('Uploading theme');
-		return uploadTheme(opts.url, accessToken, opts.themePath);
-	}).then(function actionActivate({data}) {
-		// Don't active the theme if we don't want to or it's already active
-		if (!opts.activateTheme || data.themes[0].active) {
-			return Promise.resolve();
-		}
-
-		log('Activating theme');
-		return activateTheme(opts.url, tokens.access, data.themes[0].name);
-	}).then(function actionDestroy() {
-		if (opts.token || !(tokens.access || tokens.refresh)) {
-			return Promise.resolve();
-		}
-
-		log('Destroying access tokens');
-		return destroyTokens(opts, tokens);
+module.exports = async function deployGhostTheme(options) {
+	normalizeOptions(options);
+	const api = new GhostAdminAPI({
+		url: options.url,
+		version: 'v2',
+		key: options.key
 	});
+
+	if (!options.skipThemeValidation) {
+		log('Checking theme validity');
+		await validateTheme(options.themePath);
+	}
+
+	log('Uploading theme');
+	const {data: uploadResult} = await api.themes.upload({file: options.themePath});
+
+	// Active the theme if wanted and not currently active
+	if (options.activateTheme && !uploadResult.themes[0].active) {
+		log('Activating theme');
+		await activateTheme(api, uploadResult.themes[0].name);
+	}
 };
 
 module.exports.DeployError = require('./utils/deploy-error');

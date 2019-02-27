@@ -7,17 +7,17 @@
   "author": "HexR <hello@hexr.org>",
   "license": "MIT",
   "engines": {
-    "node": "^6.9.0 || ^8.9.0 || ^ 10.4.0"
+    "node": "^8.9.0 || ^ 10.13.0"
   },
   "files": [
     "actions",
     "utils",
     "deploy.js"
-	],
-	"keywords": [
-		"ghost",
-		"deployment"
-	],
+  ],
+  "keywords": [
+    "ghost",
+    "deployment"
+  ],
   "scripts": {
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "xo",
@@ -26,18 +26,18 @@
     "test:acceptance": "mocha test/acceptance/**/*-spec.js"
   },
   "dependencies": {
-    "axios": "^0.18.0",
-    "form-data": "^2.3.2",
-    "gscan": "^2.1.1"
+    "@tryghost/admin-api": "^0.4.0",
+    "gscan": "^2.2.1"
   },
   "devDependencies": {
-    "chai": "^4.1.2",
-    "coveralls": "^3.0.2",
-    "mocha": "^5.2.0",
-    "nyc": "^12.0.2",
+    "axios": "^0.18.0",
+    "chai": "^4.2.0",
+    "coveralls": "^3.0.3",
+    "mocha": "^6.0.2",
+    "nyc": "^13.3.0",
     "rewire": "^4.0.1",
-    "sinon": "^6.1.5",
-    "xo": "^0.22.0"
+    "sinon": "^7.2.5",
+    "xo": "^0.24.0"
   },
   "xo": {
     "rules": {
