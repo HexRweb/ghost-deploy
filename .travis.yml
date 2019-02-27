@@ -1,14 +1,14 @@
 language: node_js
 
 node_js:
-  - "6"
   - "8"
+  - "10"
 
 sudo: false
 
 matrix:
   include:
-    - node_js: "8"
+    - node_js: "10"
       env: TEST_SUITE=lint
 
 cache:
@@ -20,7 +20,7 @@ install:
   - if [ "$TEST_SUITE" != "lint" ]; then ./install-ghost.sh; fi
 
 script:
-  - if [ "$TEST_SUITE" == "lint" ]; then yarn run lint; else yarn run test; fi
+  - if [ "$TEST_SUITE" == "lint" ]; then yarn run lint; else yarn run test:all; fi
 
 after_success:
-  - if [[ "$TRAVIS_NODE_VERSION" == "8" && "$TEST_SUITE" != "lint" ]]; then yarn run coverage; fi
+  - if [[ "$TRAVIS_NODE_VERSION" == "10" && "$TEST_SUITE" != "lint" ]]; then yarn run coverage; fi

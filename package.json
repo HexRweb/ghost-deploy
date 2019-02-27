@@ -22,6 +22,7 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "xo",
     "test": "yarn run lint && yarn run test:unit && yarn run test:acceptance",
+    "test:all": "yarn run test:unit && yarn run test:acceptance",
     "test:unit": "nyc --reporter=html --reporter=text mocha --recursive test/unit",
     "test:acceptance": "mocha test/acceptance/**/*-spec.js"
   },
