@@ -19,12 +19,12 @@ module.exports = async function deployGhostTheme(options) {
 	}
 
 	log('Uploading theme');
-	const {data: uploadResult} = await api.themes.upload({file: options.themePath});
+	const {name, active} = await api.themes.upload({file: options.themePath});
 
 	// Active the theme if wanted and not currently active
-	if (options.activateTheme && !uploadResult.themes[0].active) {
+	if (options.activateTheme && !active) {
 		log('Activating theme');
-		await activateTheme(api, uploadResult.themes[0].name);
+		await activateTheme(options, name);
 	}
 };
 
