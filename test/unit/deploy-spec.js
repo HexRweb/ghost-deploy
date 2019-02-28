@@ -5,7 +5,7 @@ const rewire = require('rewire');
 const deploy = rewire('../../deploy');
 const {mute} = require('../../utils/log');
 
-const themeData = {themes: [{active: false, name: 'theme'}]};
+const themeData = {active: false, name: 'theme'};
 let themeUploadStub;
 
 class GhostAdminAPI {
@@ -33,7 +33,7 @@ describe('Unit: deploy', function () {
 		deploy.__set__('activateTheme', activate);
 		deploy.__set__('GhostAdminAPI', GhostAdminAPI);
 
-		themeUploadStub = sinon.stub().resolves({data: themeData});
+		themeUploadStub = sinon.stub().resolves(themeData);
 	});
 
 	afterEach(function () {
@@ -66,14 +66,14 @@ describe('Unit: deploy', function () {
 		});
 
 		it('skips when theme is already active', async function () {
-			themeData.themes[0].active = true;
+			themeData.active = true;
 
 			await deploy({activateTheme: true}).catch(error => {
-				themeData.themes[0].active = false;
+				themeData.active = false;
 				throw error;
 			});
 
-			themeData.themes[0].active = false;
+			themeData.active = false;
 			expect(transform.calledOnce).to.be.true;
 			expect(validate.calledOnce).to.be.true;
 			expect(themeUploadStub.calledOnce).to.be.true;
