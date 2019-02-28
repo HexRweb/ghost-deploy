@@ -4,20 +4,19 @@ const expectError = require('../../utils/expect-error');
 const activateTheme = require('../../../actions/activate-theme');
 const DeployError = require('../../../utils/deploy-error');
 
-/*
-@const url = 'https://ghost.dev/';
+const url = 'https://ghost.dev/';
 const name = 'super-theme';
-*/
 describe('Unit: actions > activate-theme', function () {
-	it('Throws an error for now', function () {
+	it('Throws an error for now', async function () {
 		const {CI} = process.env;
-		process.env.CI = false;
+		delete process.env.CI
+
 		try {
-			activateTheme('Testing', 'yest');
+			await activateTheme({key: 'this:is', url: ''}, 'super-theme');
 			expectError();
 		} catch (error) {
 			expect(error).to.be.instanceOf(DeployError);
-			expect(error.message).to.equal('Activating Ghost Themes is not currently supported');
+			expect(error.message).to.equal('Activating Ghost Themes is not currently supported by the Ghost API');
 		} finally {
 			process.env.CI = CI;
 		}

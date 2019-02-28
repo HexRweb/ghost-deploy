@@ -1,3 +1,4 @@
+const DeployError = require('../utils/deploy-error');
 /*
  * @name activateTheme
  * @description Activates a remote Ghost theme
@@ -7,7 +8,8 @@
 */
 module.exports = async function activateTheme({key, url}, themeName) {
 	/* @note: The reason activating themes is only allowed in CI is because Ghost 2.16.x doesn't support PUT methods to the theme endpoint. This is because the API is still being finalized. In CI, we need to activate the theme to make sure the theme actually uploaded, so this is here for the next few months while the Ghost team finalizes the implementation of this part of the API. Even this method of using the API is extremely hacky */
-	if (process.env.CI) {
+	const isCI = Boolean(process.env.CI);
+	if (isCI) {
 		const token = require('@tryghost/admin-api/lib/token');
 		const axios = require('axios');
 
