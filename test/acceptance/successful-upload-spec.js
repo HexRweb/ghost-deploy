@@ -12,10 +12,26 @@ const config = {
 	activateTheme: true
 };
 
+const sleep = () => new Promise(resolve => setTimeout(resolve, 1500));
+
+async function waitForReady() {
+	const {status} = await axios.head('http://localhost:2368/ghost/').catch(error => error);
+
+	if (status !== 200) {
+		await sleep();
+		return waitForReady();
+	}
+
+	return true;
+}
+
 describe('Acceptance: Uploads a theme', function () {
 	it('works', async function () {
-		this.timeout(10000);
+		this.timeout(60000);
+
+		await waitForReady();
 		await deploy(config);
+		await waitForReady();
 
 		const {data} = await axios('http://localhost:2368/');
 		expect(data).to.have.string('VALID_GHOST_THEME_UPLOADED');

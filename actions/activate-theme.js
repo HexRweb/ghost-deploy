@@ -23,5 +23,5 @@ module.exports = async function activateTheme({key, url}, themeName) {
 		});
 	}
 
-	throw new DeployError('Activating Ghost Themes is not currently supported by the Ghost API')
+	throw new DeployError('Activating Ghost Themes is not currently supported by the Ghost API');
 };

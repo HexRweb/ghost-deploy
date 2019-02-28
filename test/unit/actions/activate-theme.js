@@ -6,13 +6,14 @@ const DeployError = require('../../../utils/deploy-error');
 
 const url = 'https://ghost.dev/';
 const name = 'super-theme';
+
 describe('Unit: actions > activate-theme', function () {
 	it('Throws an error for now', async function () {
 		const {CI} = process.env;
-		delete process.env.CI
+		delete process.env.CI;
 
 		try {
-			await activateTheme({key: 'this:is', url: ''}, 'super-theme');
+			await activateTheme({key: 'this:is', url}, name);
 			expectError();
 		} catch (error) {
 			expect(error).to.be.instanceOf(DeployError);

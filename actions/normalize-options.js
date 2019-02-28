@@ -1,4 +1,4 @@
-const {parse, format} = require('url');
+const {parse, format} = require('url'); // eslint-disable-line node/no-deprecated-api
 const DeployError = require('../utils/deploy-error');
 
 /*
@@ -19,6 +19,7 @@ module.exports = function transformOptions(options) {
 		throw new DeployError('Url not supplied');
 	}
 
+	// @todo: use URL constructor
 	url = parse(url);
 	url.hash = '';
 	url.search = '';
