@@ -11,9 +11,7 @@ Deploy your Ghost theme to a running Ghost instance
 
 Ghost Deploy is available via the NPM Registry
 
-```bash
-npm install --save-dev ghost-deploy
-```
+Ghost Deploy 2.0.0 is compatible with Ghost's v2 API. The SDK and API currently don't have support for activating a theme, so publishing 2.0.0 to NPM is being held off because that would be a regression
 
 # Usage
 *Note: Ghost Deploy will **overwrite** an existing theme if it has the same name.*
@@ -26,10 +24,10 @@ const {resolve} = require('path');
 // execute build-related activities
 
 return deploy({
-  url: 'https://example.com',
-  token: 'ghostAccessToken', // see the `Authentication` section
+  url: 'https://example.com', // API URL in custom integration
+  key: 'integrationAdminAPIKey', // Admin API Key in custom integration
   themePath: resolve(process.cwd(), 'built', 'example-theme.zip'),
-  activateTheme: true
+  activateTheme: true // This won't work right now!
 }).then(() => {
   console.log('deployment succeeded!');
 });
@@ -40,57 +38,26 @@ return deploy({
 
 # Deploy options
 
-Required options: authentication, themePath, url
+Required options: url, key, themePath
 
-## Authentication (required)
+## key (required)
 
-**Note: the permissions of the token / password need to be able to upload and activate themes**
+_This option is passed directly to the Admin SDK_
 
-A bulk of the options relate to authentication. Ghost Deploy supports 2 methods of authentication - token based, and password based. Password based authentication eventually becomes token-based authentication, but obtaining a token requires more effort on your end.
+In order to upload a theme to your Ghost instance, you need to have permission. With the Ghost v2 API, ghost-deploy gets permission from the Admin API Key. Here are the steps to obtain the key:
 
-It doesn't matter what method you choose. If you're already using / creating a token in your code, you can pass that token to Ghost Deploy. Otherwise, don't worry about obtaining one; pass your credentials to Ghost Deploy.
+1. Navigate to your admin interface
+2. Click the `Integrations` navigation link
+3. In the Custom integrations section, click `Add custom integration`.
+4. Supply a name (e.g. Deploy)
+5. Click `Create`
+6. The key needed by ghost-deploy is the `Admin API Key` - hover over the text, and you can copy the entire thing!
 
-If you go the token route, you just need to provide the access token
+## url (required)
 
-```js
-deploy({
-  // Authentication by token
-  token: 'accessToken',
-  // Other options
-});
-```
+_This option is passed directly to the Admin SDK_
 
-If you go the password route, you need to provide the following details:
-
-- username (email) + password
-  - This is how you log into Ghost from the admin panel
-- id + secret (short for client_id and client_secret)
-  - Check out the [API docs](https://api.ghost.org/docs/ajax-calls-from-an-external-website) for information relating to creating a client. You don't need to add any trusted domains since this is run on a server / not client
-
-```js
-deploy({
-  // Authentication by password
-  username: 'ghost@example.com',
-  password: 'Sup3R$3cUr3P@sS!!',
-  id: 'ghost-deploy',
-  secret: 'rAndOmLeTTerS',
-  // Other options
-});
-```
-
-### Cleanup
-
-If you use password authentication, Ghost Deploy will attempt to destroy the access and refresh tokens it created to upload your theme. This isn't guaranteed to work, although it should for the most part.
-
-## URL (required)
-
-The URL for your Ghost instance. Make sure you don't mess this up, because otherwise your credentials / token will be sent to someone else. Ghost Deploy runs a very basic sanity check to make sure the API responds appropriately, but there's no guarantee it's a valid Ghost instance.
-
-Ghost Deploy transforms the URL so you don't need to provide the entire thing
-
-https://example.com becomes https://example.com/ghost/api/v0.1<br/>
-https://example.com/ghost becomes https://example.com/ghost/api/v0.1<br/>
-(etc)
+The URL for your Ghost instance. Make sure you don't mess this up, because otherwise your token could be sent to someone else! Check out the [Ghost Docs](https://docs.ghost.org/api/javascript/admin/#authentication) for the current URL requirements and suggestions.
 
 ```js
 deploy({
