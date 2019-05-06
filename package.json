@@ -13,22 +13,25 @@
     "actions",
     "utils",
     "deploy.js"
-	],
-	"keywords": [
-		"ghost",
-		"deployment"
-	],
+  ],
+  "keywords": [
+    "ghost",
+    "deployment"
+  ],
   "scripts": {
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "xo",
     "test": "yarn run lint && yarn run test:unit && yarn run test:acceptance",
     "test:unit": "nyc --reporter=html --reporter=text mocha --recursive test/unit",
-    "test:acceptance": "mocha test/acceptance/**/*-spec.js"
+    "test:acceptance": "mocha test/acceptance/**/*-spec.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "form-data": "^2.3.2",
-    "gscan": "^2.1.1"
+    "gscan": "^2.1.1",
+    "snyk": "^1.161.1"
   },
   "devDependencies": {
     "chai": "^4.1.2",
@@ -60,5 +63,6 @@
         }
       }
     ]
-  }
+  },
+  "snyk": true
 }
